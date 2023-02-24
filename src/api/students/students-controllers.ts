@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express';
 import crypto from 'node:crypto';
 import { StudentModel } from './student-schema.js';
-import { Student } from './students-model.js';
 
 export const getStudentsController: RequestHandler = async (_req, res) => {
   try {
@@ -14,7 +13,7 @@ export const getStudentsController: RequestHandler = async (_req, res) => {
 
 export const createStudentController: RequestHandler = async (req, res) => {
   const id = crypto.randomUUID();
-  const student: Student = {
+  const student = {
     id,
     ...req.body,
   };
