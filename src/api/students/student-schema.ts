@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-const studentSchema = new Schema({
+export const studentSchema = new Schema({
   id: String,
   name: String,
   score: Number,
