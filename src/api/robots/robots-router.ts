@@ -14,7 +14,8 @@ router.route('/').get(getRobotsController).post(createRobotController);
 router
   .route('/:id')
   .get(getRobotByIdController)
-  .patch(updateRobotByIdController)
+  // .patch(updateRobotByIdController)
+  .put(updateRobotByIdController)
   .delete(deleteRobotByIdController);
 
 export default router;
