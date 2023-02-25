@@ -22,4 +22,17 @@ export const getRobotByIdController = () => {};
 
 export const updateRobotByIdController = () => {};
 
-export const deleteRobotByIdController = () => {};
+export const deleteRobotByIdController: RequestHandler = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const dbRes = await RobotModel.deleteOne({ _id: id });
+    if (dbRes.deletedCount === 0) {
+      res.sendStatus(404);
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
