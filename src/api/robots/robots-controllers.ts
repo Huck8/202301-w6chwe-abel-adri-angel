@@ -1,5 +1,7 @@
 import { RequestHandler } from 'express';
 import { RobotModel } from './robot-schema.js';
+import crypto from 'node:crypto';
+
 
 export const getRobotsController: RequestHandler = async (_req, res) => {
   try {
@@ -10,7 +12,19 @@ export const getRobotsController: RequestHandler = async (_req, res) => {
   }
 };
 
-export const createRobotController = () => {};
+export const createRobotController: RequestHandler = async (req, res) => {
+  const id = crypto.randomUUID();
+  const transformer = {
+    id,
+    ...req.body,
+  };
+  try {
+    await RobotModel.create(transformer);
+    res.status(201).json(transformer);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 
 export const getRobotByIdController: RequestHandler = async (req, res) => {
   const { id } = req.params;

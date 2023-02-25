@@ -3,6 +3,7 @@ import { RobotModel } from './robot-schema';
 import {
   getRobotByIdController,
   getRobotsController,
+  createRobotController,
 } from './robots-controllers';
 
 describe('Given a getRobotsControler function from robotsControllers', () => {
@@ -74,6 +75,51 @@ describe('Given a getRobotByIdController function from robotsControllers', () =>
 
     await getRobotByIdController(
       // LLamamos a la función con la Request y la Response de express
+      request as Request,
+      response as Response,
+      jest.fn(),
+    );
+    expect(response.status).toHaveBeenCalledWith(500);
+  });
+});
+
+describe('Given a createRobotController function from robotsControllers', () => {
+  const request = {} as Request;
+  const response = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  } as Partial<Response>;
+
+  const robot = [
+    {
+      id: 'robotId',
+      name: 'Bot',
+      imageUrl: 'url',
+      velocity: 10,
+      resistance: 10,
+      creationDate: '2023-02-24',
+      faction: 'Autobots',
+    },
+  ];
+
+  test('When the creation of robot is succefull it, then it should respond a one robot created', async () => {
+    RobotModel.create = jest.fn().mockResolvedValue(robot);
+    await createRobotController(request, response as Response, jest.fn());
+    expect(response.json).toHaveBeenCalled();
+  });
+
+  test('When the database response succes, it should respond whit status 201', async () => {
+    RobotModel.create = jest.fn().mockRejectedValue(robot);
+    await createRobotController(request, response as Response, jest.fn());
+    expect(response.status).toHaveBeenCalledWith(201);
+  });
+
+  test('When the database throws an error then it should respond with status 500', async () => {
+    RobotModel.create = jest
+      .fn()
+      .mockRejectedValue(new Error('Something was wrong'));
+    await createRobotController(
+
       request as Request,
       response as Response,
       jest.fn(),
