@@ -69,7 +69,7 @@ describe('Given a deleteRobotByIdController from robotController', () => {
   };
 
   test('When the user delete a robot, it should respond a ', async () => {
-    RobotModel.deleteOne = jest.fn().mockResolvedValue(robot);
+    RobotModel.findById = jest.fn().mockResolvedValue(robot.id);
     await deleteRobotByIdController(
       request as Request,
       response as Response,
@@ -78,9 +78,8 @@ describe('Given a deleteRobotByIdController from robotController', () => {
     expect(response.json).toHaveReturned();
   });
 
-  test('', async () => {
-    // Const robotNotFound = 0;
-    RobotModel.deleteOne = jest.fn().mockResolvedValue(robot);
+  test('When the user calls and non exist robot id, then it should return a 404 (not found)', async () => {
+    RobotModel.findById = jest.fn().mockResolvedValue(null);
     await deleteRobotByIdController(
       request as Request,
       response as Response,
