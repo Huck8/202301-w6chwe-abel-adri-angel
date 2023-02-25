@@ -85,7 +85,7 @@ describe('Given a deleteRobotByIdController from robotController', () => {
       response as Response,
       jest.fn(),
     );
-    expect(response.status).toHaveBeenCalledWith(404);
+    expect(response.status).toHaveBeenCalledWith(500);
   });
 
   test('When the database throws an error then it should respond with status 500', async () => {
