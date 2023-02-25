@@ -2,7 +2,14 @@ import { RequestHandler } from 'express';
 import crypto from 'node:crypto';
 import { RobotModel } from './robot-schema.js';
 
-export const getRobotsController = () => {};
+export const getRobotsController: RequestHandler = async (_req, res) => {
+  try {
+    const foundRobots = await RobotModel.find({});
+    res.json(foundRobots);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 
 export const createRobotController: RequestHandler = async (req, res) => {
   const id = crypto.randomUUID();
