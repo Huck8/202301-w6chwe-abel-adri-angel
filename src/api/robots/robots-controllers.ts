@@ -2,7 +2,6 @@ import { RequestHandler } from 'express';
 import { RobotModel } from './robot-schema.js';
 import crypto from 'node:crypto';
 
-
 export const getRobotsController: RequestHandler = async (_req, res) => {
   try {
     const foundRobots = await RobotModel.find({});
