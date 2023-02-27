@@ -2,7 +2,6 @@ import { RequestHandler } from 'express';
 import { RobotModel } from './robot-schema.js';
 import crypto from 'node:crypto';
 
-
 export const getRobotsController: RequestHandler = async (_req, res) => {
   try {
     const foundRobots = await RobotModel.find({});
@@ -42,7 +41,26 @@ export const getRobotByIdController: RequestHandler = async (req, res) => {
   }
 };
 
-export const updateRobotByIdController = () => {};
+export const updateRobotByIdController: RequestHandler = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const robot = await RobotModel.updateOne(
+      { _id: id },
+      { ...req.body },
+    ).exec();
+    if (robot.matchedCount === 0) {
+      res.sendStatus(404);
+    }
+
+    if (robot.modifiedCount === 1) {
+      res.sendStatus(204);
+    } else {
+      res.sendStatus(500);
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 
 export const deleteRobotByIdController: RequestHandler = async (req, res) => {
   const { id } = req.params;

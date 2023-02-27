@@ -4,7 +4,7 @@ import {
   getRobotByIdController,
   getRobotsController,
   createRobotController,
-    deleteRobotByIdController,
+  deleteRobotByIdController,
 } from './robots-controllers';
 
 describe('Given a getRobotsControler function from robotsControllers', () => {
@@ -84,7 +84,6 @@ describe('Given a getRobotByIdController function from robotsControllers', () =>
   });
 });
 
-
 describe('Given a createRobotController function from robotsControllers', () => {
   const request = {} as Request;
   const response = {
@@ -121,7 +120,6 @@ describe('Given a createRobotController function from robotsControllers', () => 
       .fn()
       .mockRejectedValue(new Error('Something was wrong'));
     await createRobotController(
-
       request as Request,
       response as Response,
       jest.fn(),
