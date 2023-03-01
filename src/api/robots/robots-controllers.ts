@@ -66,13 +66,13 @@ export const deleteRobotByIdController: RequestHandler = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const robot = await RobotModel.findById(id);
-    if (robot === null) {
+    const robot = await RobotModel.deleteOne({ _id: id }).exec();
+    if (robot.deletedCount === 0) {
       res.sendStatus(404);
+    } else {
+      res.status(204);
+      res.json({ id });
     }
-
-    RobotModel.deleteOne(robot?.id);
-    res.status(204).json(robot?.id);
   } catch (error) {
     res.status(500).json(error);
   }
